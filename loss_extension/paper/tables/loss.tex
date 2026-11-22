@@ -1,0 +1,14 @@
+\begin{table}[!htb]\centering\small
+\caption{New KazSTSAT-window experiment at 32 bit/s. The raw number of correct fault decisions is out of 357 failed transitions. The primary percentage averages within episodes. Delay includes unresolved failures at six hours. Bytes/day average actual traffic over all 480 episodes.}\label{tab:loss}
+\begin{tabular}{@{}llrrrr@{}}\toprule
+Loss & Delivery & Correct & Detected (\%) & Delay (h) & Bytes/day\\\midrule
+No loss & Event summaries & 216 & 60.42 & 3.81 & 643\\
+No loss & Thinned history & 180 & 49.58 & 4.50 & 3867\\
+No loss & Fresh compact & 161 & 45.83 & 4.03 & 6390\\
+Uniform & Event summaries & 175 & 49.17 & 4.39 & 695\\
+Uniform & Thinned history & 144 & 40.00 & 4.86 & 4013\\
+Uniform & Fresh compact & 160 & 45.62 & 4.05 & 6315\\
+Selective & Event summaries & 175 & 49.17 & 4.39 & 695\\
+Selective & Thinned history & 129 & 35.83 & 4.98 & 4046\\
+Selective & Fresh compact & 159 & 45.42 & 4.07 & 6315\\
+\bottomrule\end{tabular}\end{table}

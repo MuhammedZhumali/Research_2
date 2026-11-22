@@ -1,0 +1,7 @@
+profile,condition,n_targets,n_episodes,resolved_fraction,first_wrong_fraction,ever_wrong_fraction,required_for_base_gate,passed,final_correct_fraction,conflicting_fraction
+clear_current,base,120,40,1.0,0.0,0.0,True,True,1.0,0.0
+slow_sparse_current,base,120,40,1.0,0.0,0.0,True,True,1.0,0.0
+slow_sparse_current,current_bias,120,40,0.9916666666666667,0.0,0.0,False,True,0.9916666666666667,0.0
+slow_sparse_current,temperature_gaussian,120,40,1.0,0.0,0.0,False,True,0.975,0.025
+slow_sparse_current,thermal_mismatch,120,40,0.9666666666666667,0.016666666666666666,0.016666666666666666,False,True,0.9583333333333334,0.025
+thermal_only,base,120,40,1.0,0.0,0.0,True,True,1.0,0.0

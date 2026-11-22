@@ -1,0 +1,4 @@
+profile,tau_min_s,tau_max_s,rise_min_c,rise_max_c,ambient_amplitude_c,temperature_noise_bound_c,current_interval_s,evidence_status
+clear_current,900.0,1500.0,20.0,32.0,1.0,0.15,300.0,modeling assumption
+slow_sparse_current,2400.0,3600.0,8.0,14.0,2.0,0.3,3600.0,modeling assumption
+thermal_only,1200.0,2400.0,18.0,30.0,1.0,0.2,,modeling assumption

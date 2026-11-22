@@ -1,0 +1,6 @@
+{
+  "episodes": 360,
+  "smoke": false,
+  "frozen_full_summary_parity_cells": 9,
+  "freeze_sha256": "4898cecf9049a41ee1496f3a3cffbfaba9c0d15bb3611e94a1cb96f433eeaefb"
+}

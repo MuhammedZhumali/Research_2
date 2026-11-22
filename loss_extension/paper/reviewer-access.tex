@@ -1,0 +1,30 @@
+% Register a passive attachment in the PDF's EmbeddedFiles name tree.
+% The scientific ZIP includes these sources and deliberately excludes itself.
+\newif\ifResearchAttached
+\edef\ResearchZipName{\detokenize{R2_Frame_Loss_Research.zip}}
+\edef\ResearchZipPath{supplement/\ResearchZipName}
+\IfFileExists{\ResearchZipPath}{%
+  \ifdefined\pdfobj
+    \ifnum\pdfoutput>0
+      \immediate\pdfobj stream attr {/Type /EmbeddedFile} file {\ResearchZipPath}%
+      \edef\ResearchStream{\the\pdflastobj\space 0 R}%
+      \immediate\pdfobj{<< /Type /Filespec /F (\ResearchZipName)
+          /Desc (Research code, data and reproduction guide)
+          /EF << /F \ResearchStream >> >>}%
+      \edef\RegisterResearchZip{\noexpand\pdfnames{/EmbeddedFiles <<
+          /Names [(\ResearchZipName) \the\pdflastobj\space 0 R] >>}}%
+      \RegisterResearchZip
+      \ResearchAttachedtrue
+    \fi
+  \else
+    \ifdefined\XeTeXrevision
+      \AddToHook{shipout/firstpage}{%
+        \special{pdf:fstream @RtwoData (\ResearchZipPath) << /Type /EmbeddedFile >>}%
+        \special{pdf:obj @RtwoFile << /Type /Filespec /F (\ResearchZipName)
+          /Desc (Research code, data and reproduction guide) /EF << /F @RtwoData >> >>}%
+        \special{pdf:put @names << /EmbeddedFiles << /Names [(\ResearchZipName) @RtwoFile] >> >>}%
+      }%
+      \ResearchAttachedtrue
+    \fi
+  \fi
+}{}

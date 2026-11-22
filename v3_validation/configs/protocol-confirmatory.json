@@ -1,0 +1,61 @@
+{
+  "version": "validation-3.0",
+  "status": "pre-analysis plan; held-out execution requires the coordinator freeze",
+  "objective": "Test practical non-inferiority and two-sided equivalence of the frozen v2 event summary to contact full history with substantially more independent episodes; independently examine measured laboratory thermal data.",
+  "n_per_profile": 2000,
+  "secondary_n_per_profile": 400,
+  "boundary_n_per_profile": 400,
+  "profiles": ["clear_current", "slow_sparse_current", "thermal_only"],
+  "schedules": ["synthetic_90min", "kazstsat_astana_10deg"],
+  "primary_rates_bps": [8, 32],
+  "primary_method": "snapshot_events",
+  "secondary_methods": ["fresh_compact", "events_thinned"],
+  "boundary_rate_bps": 4,
+  "episode_seed_base": 31000000,
+  "profile_seed_stride": 100000,
+  "fault_assignment_seed": 20261113031,
+  "seed_manifest_path": "outputs/confirmatory-design/seed_manifest.jsonl",
+  "delivery_from_v2": true,
+  "duration_s": 86400,
+  "target_followup_s": 21600,
+  "sampling": {
+    "fault_assignment": "Independent Bernoulli(0.5) draws from a separate fixed RNG stream, materialized with all episode seeds before telemetry generation and frozen by SHA-256.",
+    "difference_from_v2": "V2 forced equal numbers by index parity. V3 samples the same 50/50 population mixture independently, rather than forcing the realized sample proportions. This makes the iid episode assumptions explicit. Actual class counts are reported.",
+    "independent_unit": "One daily episode within a profile. Its three OFF outcomes are averaged or reduced to episode-any-wrong before inference. Methods, budgets and schedules share that episode and are paired, not new independent observations.",
+    "secondary_selection": "The first 400 registered episode indices in each profile, fixed before simulation and independent of outcomes. Secondary comparators and the 4 bps boundary use this identical subset.",
+    "no_optional_stopping": "Run exactly 2000 episodes per profile for the primary comparison. Do not expand sample size, alter endpoints or retune methods based on results. Do not pool v2 exploratory episodes with this new sample.",
+    "registered_totals": {"independent_episodes":6000,"primary_delivery_runs":24000,"secondary_delivery_runs":9600,"boundary_delivery_runs":2400,"all_delivery_runs":36000}
+  },
+  "frozen_behavior": {
+    "model_and_diagnosis": "Reuse the unmodified v2 generator, detector, float32 serialization, causal prefixes and per-OFF evaluation. Only the experimental sampling design and registered comparison grid change.",
+    "summary": "Reuse the final v2 summary-only policy, including observed first/current/representative/latest records, receiver cache and paid ACKs. No policy retuning.",
+    "references": "Continuous full-history evidence reference and full-history at the same contact starts. Contact processing includes the same reserved time and actual overrun rule. References remain conditional on the declared model.",
+    "orbit": "Reuse the saved KazSTSAT CSV and its original elements/epoch. No refreshed orbit. Same synthetic 90-minute control.",
+    "orbit_csv_sha256": "4a1b01433a9d86386956f793dab7270594aa1da7cfaa60588bb27247b3df93d7",
+    "costs": "Preserve v2 daily and diagnosis-prefix costs, partial-frame occupied airtime, ACKs, unresolved flags and six-hour capped delay. No stopping-after-diagnosis rule."
+  },
+  "statistics": {
+    "family_alpha": 0.05,
+    "primary_cells": 12,
+    "endpoints": 3,
+    "margins": {"coverage_loss":0.05,"excess_any_wrong":0.02,"delay_gap_s":900},
+    "signed_differences": {"coverage_loss":"reference resolved fraction minus candidate resolved fraction per episode","excess_any_wrong":"candidate episode-any-wrong indicator minus reference episode-any-wrong indicator","delay_gap_s":"candidate mean six-hour-capped delay minus reference mean six-hour-capped delay within episode"},
+    "primary_family": "The 12 event-summary cells (3 profiles x 2 schedules x 2 rates), each with 3 endpoints: 36 simultaneous endpoint intervals, Bonferroni delta=0.05/36. Dependence between cells does not invalidate the union bound.",
+    "empirical_bernstein": "Coverage and delay: mean +/- [sqrt(2*unbiased_sample_variance*log(4/delta)/n) + 7*range_width*log(4/delta)/(3*(n-1))]. Range widths are 2 for signed coverage differences and 43200 seconds for signed capped-delay differences. Bounds are intersected only with their mathematical support. Zero sample variance still yields a positive radius. Maurer and Pontil (2009), Theorem 4, applied to both tails after normalization.",
+    "paired_error_interval": "Let p10=P(candidate any wrong, reference none) and p01=P(reference any wrong, candidate none). Obtain exact Clopper-Pearson marginal intervals for each Bernoulli event with tail alpha=delta/4. Report [L10-U01, U10-L01]. Four marginal tail events have total probability at most delta; no independence of the two discordance counts is assumed.",
+    "non_inferiority": "A cell passes only if every simultaneous upper endpoint bound is strictly below its unchanged positive v2 margin.",
+    "two_sided_equivalence": "A cell passes only if every simultaneous endpoint interval is strictly inside the corresponding negative and positive margins. This is stronger than a nonsignificant difference and distinct from non-inferiority.",
+    "absolute_error": "Also report descriptive exact 95% bounds for candidate and reference episode-any-wrong probabilities; agreement with an erroneous reference is not a safety claim.",
+    "secondary_inference": "Fresh compact, thinned history and 4 bps results are prespecified secondary estimates; their ordinary episode-bootstrap intervals do not support additional familywise confirmatory declarations.",
+    "bootstrap_resamples":1000,
+    "bootstrap_seed":2026111303,
+    "sample_size_basis": "Fixed before new telemetry generation using the v2 exploratory effect/variance and finite-sample bounds. At n=2000 a zero-variance delay difference still has an empirical-Bernstein radius about 402 s, leaving room below the 900 s margin. With the observed v2 worst primary summary mean about 248 s and SD about 1060 s, the planning upper bound is about 744 s. These planning calculations are not a guarantee that the new sample will pass.",
+    "preserve_failures": "Report every registered primary cell and all failed/inconclusive intervals. No endpoint or method is selected after viewing the new sample."
+  },
+  "laboratory": {
+    "separate_plan": "lab/protocol-lab.json",
+    "purpose": "Measured hardware response check and nominal OFF diagnostic consistency with a calibration/held-out split, not validation of real actuator-fault recall or spacecraft hardware.",
+    "separation": "Laboratory fitting never changes the frozen synthetic model, detector, policy or primary confirmatory experiment. A lab-specific diagnostic envelope is explicitly a separately calibrated adaptation."
+  },
+  "publication": "Create a new manuscript revision preserving v2. Include completed confirmatory results and the measured laboratory case; distinguish conditional synthetic equivalence, hardware prediction accuracy and unvalidated fault sensitivity. All tables and plots are generated from saved result files."
+}

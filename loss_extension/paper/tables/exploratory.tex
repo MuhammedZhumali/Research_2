@@ -1,0 +1,14 @@
+\begin{table}[!htb]\centering\small
+\caption{Lossless exploratory KazSTSAT windows at 32 bit/s. All 360 OFF outcomes enter the six-hour capped delay. Daily bytes include framing, context and ACKs.}\label{tab:explore}
+\begin{tabular}{@{}lrrr@{}}\toprule
+Representation & Correct / 360 & Delay (h) & Bytes/day\\\midrule
+Fresh raw & 80 & 5.13 & 6389\\
+Fresh compact & 149 & 4.27 & 6391\\
+FIFO raw & 34 & 5.69 & 6389\\
+FIFO compact & 56 & 5.54 & 6394\\
+Fixed groups & 184 & 4.72 & 4719\\
+Greedy groups & 184 & 4.68 & 4720\\
+Thinned history & 194 & 4.40 & 3833\\
+Event summaries & 216 & 3.97 & 627\\
+Contact full history & 217 & 3.96 & Unlimited\\
+\bottomrule\end{tabular}\end{table}

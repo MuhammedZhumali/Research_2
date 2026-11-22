@@ -1,0 +1,61 @@
+{
+  "repository": "https://github.com/APMonitor/arduino",
+  "commit": "f36e65a70dd7122d1829883899e40e56bf6c4279",
+  "commit_date_utc": "2021-11-11T15:37:48Z",
+  "license": "Apache-2.0 repository license; no separate dataset license found in the selected archive",
+  "intended_record": "archive/1_Model/1_Heater/initial_models.csv",
+  "hardware_evidence": [
+    "Archive 1_Model/README.txt identifies test_models.py and gen_data.py as generators of initial_models.csv.",
+    "Both acquisition scripts connect using tclab.TCLab() and read a.T1/a.T2; no simulated TCLabModel is selected.",
+    "The actual irregular-time record is consistent with test_models.py real-time acquisition, not the integer-index loop in gen_data.py."
+  ],
+  "limitations": [
+    "Commanded heater percentages and temperatures are measured/logged; electrical current and independent actuator-fault ground truth are absent.",
+    "No board serial number, exact acquisition date, or independently certified healthy label is included.",
+    "The record is treated as a nominal command experiment, not a labelled fault-detection benchmark."
+  ],
+  "files": [
+    {
+      "path": "LICENSE",
+      "url": "https://raw.githubusercontent.com/APMonitor/arduino/f36e65a70dd7122d1829883899e40e56bf6c4279/LICENSE",
+      "final_url": "https://raw.githubusercontent.com/APMonitor/arduino/f36e65a70dd7122d1829883899e40e56bf6c4279/LICENSE",
+      "retrieved_utc": "2026-11-13T08:43:11.236540+00:00",
+      "bytes": 11357,
+      "sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
+      "kind": "download"
+    },
+    {
+      "path": "archive/1_Model/README.txt",
+      "archive_member": "1_Model/README.txt",
+      "parent": "CACE_2020_source.zip",
+      "bytes": 351,
+      "sha256": "a1f52ecae1ab9418af0d05ef67b8d924cc66aec016a19d8593f5735f9465d692",
+      "kind": "unmodified_archive_member"
+    },
+    {
+      "path": "archive/1_Model/1_Heater/initial_models.csv",
+      "archive_member": "1_Model/1_Heater/initial_models.csv",
+      "parent": "CACE_2020_source.zip",
+      "bytes": 75618,
+      "sha256": "ab56b612270ca17aeda83c8b99ab112a73daf71d9769105640f8ed6a7b57b05e",
+      "kind": "unmodified_archive_member"
+    },
+    {
+      "path": "archive/1_Model/1_Heater/gen_data.py",
+      "archive_member": "1_Model/1_Heater/gen_data.py",
+      "parent": "CACE_2020_source.zip",
+      "bytes": 1544,
+      "sha256": "a1c792aaaa5068d889b0a0fbafba0d870269d5f58b980290b36248c42f6ce963",
+      "kind": "unmodified_archive_member"
+    },
+    {
+      "path": "archive/1_Model/1_Heater/test_models.py",
+      "archive_member": "1_Model/1_Heater/test_models.py",
+      "parent": "CACE_2020_source.zip",
+      "bytes": 4920,
+      "sha256": "288a06fa1d40580d50779004ab3df06ca08b9fd63247233fc2ac122fc27baec6",
+      "kind": "unmodified_archive_member"
+    }
+  ],
+  "release_scope": "Offline computational inputs and attribution. The original manifest in provenance/ retains the URLs and hashes of ancillary source materials."
+}

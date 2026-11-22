@@ -1,0 +1,5 @@
+profile,condition,schedule_id,rate_bps,stress,n_targets,resolved_fraction_mean,ever_wrong_fraction_mean,unknown_fraction_mean,capped_delay_s_mean,wire_bytes_mean
+slow_sparse_current,base,kazstsat_astana_10deg,32.0,none,120,0.6,0.0,0.4,14534.591388677316,645.4
+slow_sparse_current,current_bias,kazstsat_astana_10deg,32.0,none,120,0.5666666666666667,0.0,0.4333333333333333,14994.251712404593,645.4
+slow_sparse_current,temperature_gaussian,kazstsat_astana_10deg,32.0,none,120,0.6083333333333332,0.0,0.3916666666666666,14457.297525298596,645.4
+slow_sparse_current,thermal_mismatch,kazstsat_astana_10deg,32.0,none,120,0.5916666666666666,0.0,0.4083333333333333,14800.29831374298,645.4

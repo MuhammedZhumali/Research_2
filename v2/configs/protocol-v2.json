@@ -1,0 +1,75 @@
+{
+  "version": "2.0",
+  "status": "development_protocol_before_held_out_test; activation requires verification/freeze.json",
+  "title": "Delivery of diagnostically sufficient telemetry under limited LEO contact windows",
+  "seed_bases": {"development": 21000000, "calibration": 22000000, "test": 23000000},
+  "counts_per_profile": {"development": 4, "calibration": 12, "test": 40},
+  "profiles": ["clear_current", "slow_sparse_current", "thermal_only"],
+  "conditions": ["base", "thermal_mismatch", "temperature_gaussian", "current_bias"],
+  "robustness_profile": "slow_sparse_current",
+  "schedules": ["synthetic_90min", "kazstsat_astana_10deg"],
+  "rates_base_bps": [2, 4, 8, 32, 2048],
+  "rates_robustness_bps": [8, 32],
+  "missed_contact_rate_bps": 32,
+  "missed_contact_rule": "Remove the second scheduled contact by ordinal position, independent of true transitions or fault onset; base conditions only.",
+  "target_followup_s": 21600,
+  "duration_s": 86400,
+  "methods": ["fresh_raw", "fifo_raw", "fresh_compact", "fifo_compact", "snapshot_events", "fixed_groups", "greedy_groups", "events_thinned"],
+  "delivery": {
+    "max_records_per_frame": 16,
+    "planner_reservation_s": 0.1,
+    "ground_diagnosis_reservation_s": 0.1,
+    "group_pre_s": 600,
+    "group_post_s": 3600,
+    "thinning_interval_s": 600,
+    "summary_span_s": 600,
+    "summary_rule": "Summary-only, no full-history fallback: per observed OFF epoch select first record, first current-bearing record, record nearest first+600 s, record nearest latest-600 s and latest record. Deduplicate, pack with context, and charge receiver cache/ACK. Repeated updates can accumulate more than five records over the day.",
+    "receiver": "Persistent causal cache; reliable per-frame ACK charged to shared bidirectional allocation. No stop-after-diagnosis feedback or stopping rule.",
+    "cutoff": "Sender takes an observation snapshot at contact start. Diagnosis is batch at contact end plus charged/reserved processing. Context identifiers are opaque and cannot encode mode or event order.",
+    "rate_meaning": "Assumed effective bidirectional allocation to this diagnostic stream after other traffic; not a measured KazSTSAT physical radio rate.",
+    "cost_cutoff": "Cumulative bytes and occupied airtime from episode start through the complete contact containing the first correct diagnosis by the fixed target deadline. Unresolved targets retain censored prefix cost to deadline with an explicit unresolved flag. Daily cost remains separate."
+  },
+  "model": {
+    "target": "Historical outcome of each autonomous OFF transition, not permanent health of the actuator. Three targets per episode; earlier healthy certificates never establish a later OFF outcome.",
+    "off_start_windows_s": [[3600,7200],[28800,32400],[54000,57600]],
+    "off_duration_range_s": [1800,18000],
+    "balance": "Half healthy episodes; half persistent stuck-ON starting at the second or third OFF after normal work. Onset and target boundaries are evaluator-only.",
+    "raw_control": "Information ablation. A low-current certificate can establish an OFF actuator observation without a command. The evaluator associates its acquisition time with an OFF target without revealing that interval to the detector. High current without command context does not identify failed OFF.",
+    "uncertainties": "Separate one-factor thermal tau x1.35, Gaussian temperature noise at the baseline uniform-noise standard deviation, and +0.15 A current bias. Detector bounds stay frozen. Same underlying seeds pair each sensitivity with the base slow profile.",
+    "causality": "Only observed measurement/event prefixes enter sender and receiver. No truth, fault onset, future transition, episode target labels or hidden diagnostic boundaries. No globally known OFF deadline.",
+    "assumptions": "All thermal, sensor, switching, fault and stream-allocation parameters are modeling assumptions, not measured KazSTSAT subsystem properties."
+  },
+  "research_questions": [
+    {"id":"RQ1","question":"How does explicit transition context change correct resolution and capped latency when local switching repeats and its future times are unavailable?","primary_pairs":[["fresh_compact","fresh_raw"],["fifo_compact","fifo_raw"]],"hypothesis":"Context improves resolvability or latency in at least some prespecified conditions at equal wire allocation; raw comparisons are information ablations rather than algorithmic novelty evidence."},
+    {"id":"RQ2","question":"Under what budgets and schedules are a coherent summary, simple groups or thinned history sufficient relative to full-history contact delivery, and what prefix cost do they require?","hypothesis":"Some simple delivery representations approach the full-history contact reference; low budgets or excluded evidence define counterexamples. No complex policy must win."},
+    {"id":"RQ3","question":"Do these boundaries persist under isolated physical/sensor mismatch and one missed contact?","hypothesis":"Model mismatch can limit even full-history diagnosis, while missing contact and delivery selection add distinct delay or loss. No universal robustness is presumed."}
+  ],
+  "calibration_gate": {
+    "base_full_history_correct_fraction_min": 0.9,
+    "base_full_history_first_wrong_fraction_max": 0.05,
+    "base_full_history_ever_wrong_fraction_max": 0.05,
+    "unit": "OFF outcomes aggregated within episode then profile",
+    "stress_handling": "Describe all stress outcomes without retuning detector separately. A failed base gate requires a documented pretest amendment, not removal of held-out difficult cases."
+  },
+  "statistics": {
+    "bootstrap_resamples": 1000,
+    "bootstrap_seed": 20261113,
+    "confidence": 0.95,
+    "independent_unit": "Base episode within profile. Average its three OFF outcomes before bootstrap. Conditions, schedules, rates and methods are paired reuses; 120 independent held-out base episodes, not 15360 independent runs.",
+    "censoring": "Fixed six-hour follow-up from each OFF; unresolved first-correct delay equals six hours in the capped-delay endpoint. Never omit unresolved outcomes from the primary latency average.",
+    "sample_size": "Forty independent episodes per profile is a bounded robustness study precision choice, not a powered safety-equivalence demonstration.",
+    "sufficiency_margins": {"correct_coverage_loss":0.05,"excess_ever_wrong":0.02,"capped_delay_gap_s":900},
+    "sufficiency_rule": "Empirical screen checks all three point differences versus the contact full-history reference. The error estimand for both the point screen and uncertainty screen is episode-any-wrong risk, distinct from the separately reported average fraction of wrong OFF outcomes. Interval-supported sufficiency additionally requires upper 95% bounds within every margin. Coverage and latency use paired episode bootstrap. For errors use a conservative difference of marginal Wilson bounds on episode-any-wrong risk to avoid zero-event bootstrap certainty. A violated lower bound indicates insufficiency; otherwise inconclusive. Engineering margins are assumptions, not mission requirements.",
+    "multiplicity": "Intervals describe prespecified cells and pairs; no familywise significance or winner selected by minimum test p-value. Trace selection after test is explicitly exploratory."
+  },
+  "orbit": {
+    "source": "../data/contacts/kazstsat.csv",
+    "sha256": "4a1b01433a9d86386956f793dab7270594aa1da7cfaa60588bb27247b3df93d7",
+    "norad":43783,
+    "cospar":"2018-099AB",
+    "element_epoch_utc":"2026-11-12T14:08:29.492736Z",
+    "model_station":{"latitude_deg":51.1694,"longitude_deg":71.4491,"height_m":350,"minimum_elevation_deg":10},
+    "interpretation":"Synthetic diagnostic telemetry at calculated KazSTSAT contact windows. Reuse frozen seven-day element/window snapshot and deterministic daily offsets; geometric visibility is not an actual radio session."
+  },
+  "reproducibility": "Freeze complete model, detector, wire, policies, runner, protocol, dependencies and orbit inputs after development/calibration and before any held-out test. Keep all runs in new folders; fixes after test are versioned and affected runs repeated."
+}

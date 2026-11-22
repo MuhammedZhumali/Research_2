@@ -1,0 +1,29 @@
+{
+  "episodes": 360,
+  "runs": 5760,
+  "target_rows": 17280,
+  "unique_targets": 1080,
+  "observed_timings": {
+    "constrained": {
+      "plan_max_s": 0.0012706999550573,
+      "plan_overruns": 0,
+      "diagnose_max_s": 0.001365500036627,
+      "diagnose_overruns": 0
+    },
+    "reference": {
+      "plan_max_s": 0.0,
+      "plan_overruns": 0,
+      "diagnose_max_s": 0.0479658999829553,
+      "diagnose_overruns": 0
+    }
+  },
+  "sha256": {
+    "runs.csv": "6a40636c4585b03bcbbc61e68995a1183275c815eef05621c395454b6620394c",
+    "targets.csv": "280447ae011e426a10847129d82b005cb790f936cb9c932097ee1af267a4f2c3",
+    "aggregate.csv": "d6b7cd424a41c69075a04fb5ca96e7d024fa3f1bac8b3b091cba8f9ae07bb6d4",
+    "contrasts.csv": "7daf1a5442b187cd86468a01e1b5a0ff1589ac7ef7d0f0fa96067ab710234131"
+  },
+  "paired": true,
+  "lag_isolated": true,
+  "capped_delay_checked": true
+}

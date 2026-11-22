@@ -1,0 +1,7 @@
+schedule_id,rate_bps,loss_mode,candidate,comparator,primary,difference_pp,pointwise_lo95_pp,pointwise_hi95_pp,family_adjusted_low_pp,family_adjusted_high_pp,bootstrap_degenerate
+kazstsat_astana_10deg,32,random,snapshot_events,events_thinned,1,9.166666666666664,5.000000000000007,13.125000000000007,3.749999999999993,14.791666666666664,0
+kazstsat_astana_10deg,32,random,snapshot_events,fresh_compact,1,3.5416666666666643,-1.6666666666666643,8.541666666666671,-3.3333333333333357,10.208333333333343,0
+kazstsat_astana_10deg,32,random,events_thinned,fresh_compact,1,-5.625,-10.833333333333336,-0.4166666666666643,-12.500000000000007,1.25,0
+kazstsat_astana_10deg,32,selective,snapshot_events,events_thinned,1,13.333333333333329,9.166666666666664,17.5,7.708333333333336,18.958333333333336,0
+kazstsat_astana_10deg,32,selective,snapshot_events,fresh_compact,1,3.75,-1.4583333333333286,8.750000000000007,-3.125,10.416666666666671,0
+kazstsat_astana_10deg,32,selective,events_thinned,fresh_compact,1,-9.583333333333329,-15.0,-4.166666666666657,-16.875,-2.2916666666666643,0

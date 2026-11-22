@@ -1,0 +1,11 @@
+\begin{table}[!htb]\centering\small
+\caption{Serialized fields. Each data frame incurs 56 forward overhead bytes. Every received frame also incurs a 56-byte ACK.}\label{tab:wire}
+\begin{tabular}{@{}lr@{}}\toprule
+Field & Bytes\\\midrule
+Acquisition time / temperature / flags & 8 / 4 / 1\\
+Interval ID / optional current & 4 / 4\\
+Command time / ON--OFF / interval ID & 8 / 1 / 4\\
+Header / record counts / CRC & 20 / 4 / 4\\
+Nonce / tag (modeled) & 12 / 16\\
+Complete ACK & 56\\
+\bottomrule\end{tabular}\end{table}

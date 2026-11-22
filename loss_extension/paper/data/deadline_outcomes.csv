@@ -1,0 +1,4 @@
+truth,targets,timely,no_window_intersects_horizon,window_but_no_timed_opportunity,contact_reference_only,insufficient_continuous_evidence,ever_wrong,no_decision
+fault,4467,2769,1593,102,3,0,0,1698
+nominal,13533,8260,4876,375,19,3,0,5273
+all,18000,11029,6469,477,22,3,0,6971

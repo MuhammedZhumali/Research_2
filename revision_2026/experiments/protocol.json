@@ -1,0 +1,22 @@
+{
+  "series": "revision-composition-sensor-1",
+  "status": "Specified prospectively after the original study, before running these fresh episodes.",
+  "profiles": ["clear_current", "slow_sparse_current", "thermal_only"],
+  "seed_base": 51000000,
+  "seed_stride": 100000,
+  "episodes_per_profile": 120,
+  "population": "Three frozen v2 profiles, 60 healthy and 60 late-failure episodes per profile by alternating index. Episode seeds do not overlap pilot, development, v3 confirmation or frame-loss series. Three historical OFF targets per 24 h episode.",
+  "schedule": "kazstsat_astana_10deg",
+  "methods": ["endpoints", "endpoints_current", "full_summary"],
+  "composition_rates_bps": [4, 8, 32],
+  "primary_rate_bps": 32,
+  "lag_s": 120,
+  "sensor_model": "First-order sensor centered on the initial true sample. Drive it with the piecewise-linear interpolation of consecutive 60 s generated noiseless plant temperatures, exact integration per interval up to the acquisition time. Add the original time-matched bounded measurement noise after the lag. The original current, commands, timestamps, downlink schedule, underlying thermal state, detector and transport remain fixed. Tau=120 s (two acquisition intervals) is an assumed sensitivity setting, not a measured sensor parameter. No other stress or erasure.",
+  "rules": "At each contact, process observed OFF epochs oldest first and deduplicate by acquisition time. Endpoints = first, latest. Endpoints_current = first, first available current, latest. Full_summary is the original frozen first/current/nearest first+600 s/nearest latest-600 s/latest selector. Endpoints keep their actual current fields in all arms. Use the frozen wire encoder, ACK/cache, record cap and chronological epoch priority. Every method sees the same causal prefix, no future events or target labels.",
+  "clock": "All methods reserve the same fixed 0.1 s selection at contact start, and 0.1 s diagnosis after contact end. Compute machine timings separately. The constrained arms use the same capacity floor and receive decoded frames with a reliable charged ACK. This deterministic controller-latency assumption isolates composition; it is not a flight latency measurement.",
+  "reference": "Include complete causal history at the same contact starts with unconstrained bytes, and complete continuously available measurements; no delivery-cost comparison with either reference.",
+  "metrics": "Correct = any correct issued label within six hours; ever_wrong = any issued opposite label by deadline; no_decision = no unambiguous label in that window; unresolved = no correct by deadline. Report final correct, conflicts, fault detections and nominal confirmations separately and retain six hours for unresolved capped delays. Also mean daily bidirectional bytes including ACK. Observations from one episode remain paired and independent sampling unit is episode. Opposite labels and any-correct can overlap under lag.",
+  "analysis": "Report each profile and equally weighted profile mean. Primary descriptive comparison is zero lag at 32. Secondary 8 and boundary 4, then lag=120 s compared with zero at 32, all on the same episode grid. Adjacent composition contrasts and full minus endpoints at every cell; lag minus zero for each method and diagnostic reference at 32. Show point estimates, pointwise two-sided 95% stratified paired percentile bootstrap intervals, 5000 resamples of whole episodes within profile and assignment stratum. No equivalence test or familywise superiority claim; zero bootstrap error width with no observed discordance does not provide a safety guarantee.",
+  "bootstrap_seed": 20261119,
+  "bootstrap_samples": 5000
+}

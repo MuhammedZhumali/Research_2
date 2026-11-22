@@ -1,0 +1,57 @@
+{
+  "version": "lab-1.0",
+  "status": "registered before any model fitting or held-out outcome computation",
+  "source": {
+    "repository": "APMonitor/arduino",
+    "commit": "f36e65a70dd7122d1829883899e40e56bf6c4279",
+    "archive": "CACE_2020_source.zip",
+    "member": "1_Model/1_Heater/initial_models.csv",
+    "fields": {"Time": "elapsed seconds", "H1": "heater 1 command percent", "H2": "heater 2 command percent", "T1": "sensor 1 degrees Celsius", "T2": "sensor 2 degrees Celsius"},
+    "scope": "One nominal-command hardware trace; no electrical current, injected fault labels, or independent health certification"
+  },
+  "selection_disclosure": "Before registration the source scripts, column names, row count, command changes, and first/last observations were inspected for suitability. No model was fitted and no held-out predictive/diagnostic score was computed. The held-out segment is withheld from fitting, not an externally blinded dataset.",
+  "split": {
+    "calibration": "all records with Time < 400 seconds, containing the first two OFF intervals",
+    "held_out": "all records with Time >= 400 seconds, including a new 70 percent command and its final OFF",
+    "primary_diagnostic_target": "the final positive-to-zero H1 transition after 400 seconds",
+    "independent_held_out_off_transitions": 1,
+    "secondary_record": "authors validation.csv is retained only as provenance, not scored or fitted in this registered check"
+  },
+  "models": {
+    "first_order": "dT/dt=(A+G*q-T)/tau, q=H1/100; exact zero-order-hold state update",
+    "sensor_lag": "dTh/dt=(A+G*q-Th)/tau_h; dTs/dt=(Th-Ts)/tau_s; exact two-state zero-order-hold update",
+    "initial_state": "All model states initialized to the mean T1 of calibration rows before the first nonzero heater command. No held-out initial-state refit.",
+    "ambient_parameter_bounds": "initial-state mean plus or minus 5 degrees Celsius",
+    "gain_bounds_C_at_100_percent": [1, 200],
+    "first_order_tau_grid_s": {"minimum": 5, "maximum": 2000, "points": 500, "spacing": "geometric"},
+    "sensor_lag_tau_h_grid_s": {"minimum": 5, "maximum": 2000, "points": 100, "spacing": "geometric"},
+    "sensor_lag_tau_s_grid_s": {"minimum": 1, "maximum": 300, "points": 80, "spacing": "geometric"},
+    "sensor_lag_identifiability_constraint": "tau_h >= tau_s; the two thermal poles are not uniquely assignable to physical parts from one measured output",
+    "linear_parameters": "For every time-constant grid point solve least squares for A and G using only calibration rows; discard fits outside physical bounds",
+    "selection": "Lowest calibration free-run SSE within each predeclared model; do not select or tune using held-out error",
+    "command_timing": "Use the logged preceding-row H1 value as constant over each interval. Acquisition and command calls differ by an unreported subsecond offset, retained as a limitation."
+  },
+  "predictions": {
+    "primary": "Free-run predictions across calibration and held-out segments without measurement resets after initialization",
+    "metrics": ["RMSE_C", "MAE_C", "maximum_absolute_error_C", "coverage_of_calibration_residual_envelope"],
+    "residual_envelope": "Plus/minus the largest absolute calibration free-run residual, augmented by 0.1 degree C numerical/quantization allowance; same width carried into held-out without tuning",
+    "interpretation": "Empirical calibration discrepancy envelope, not a probabilistic confidence interval or a hardware sensor specification"
+  },
+  "diagnostic_checks": {
+    "unchanged_v2": "Run each of the three frozen v2 profile configurations on the observed final OFF, with current absent and command context present; explicitly report ineligible 300-second pair spans and out-of-domain temperatures/time constants",
+    "lab_adapted_first_order": {
+      "parameter_envelope": "For first-order grid fits with calibration SSE <= 1.10 times the minimum, take the marginal minima/maxima of A, G, and tau. Multiply G bounds by the publicly logged pre-OFF power fraction for each OFF comparison.",
+      "temperature_tolerance": "Largest absolute residual among accepted calibration first-order free-run fits plus 0.1 degree C; treats unmodeled behavior as empirical discrepancy, not measurement noise",
+      "pair_interval_s": [5, 80],
+      "module": "The frozen v2 interval-compatibility implementation with lab-specific configuration; no current measurements or policy-specific tuning",
+      "outputs": ["first supported label", "time after logged OFF", "final label", "opposing certificates", "pair fractions compatible with OFF / retained pre-OFF power / both / neither"],
+      "nominal_interpretation": "Agreement with commanded OFF in an unlabelled nominal experiment, not measured fault sensitivity"
+    },
+    "sensor_lag": "Used only as a predeclared prediction comparator; no new two-state diagnostic detector or synthetic fault injection"
+  },
+  "reporting": {
+    "preserve_failures": "Report an inadequate first-order fit, wrong alarm, uninformative envelope, or failed direct transfer without adjusting the held-out split, thresholds, grid or model set",
+    "no_population_interval": "One held-out OFF is one case, not a fault-rate sample; repeated pairs are correlated and receive no population confidence intervals",
+    "claims_excluded": ["validation of KazSTSAT thermal hardware", "validation of actual stuck-ON fault recall", "validation of current sensing rules", "operational radio or safety performance"]
+  }
+}

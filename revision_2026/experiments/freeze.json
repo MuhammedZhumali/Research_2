@@ -1,0 +1,18 @@
+{
+  "frozen_utc": "2026-11-19T09:45:25.452813+00:00",
+  "sha256": {
+    "revision_2026/experiments/protocol.json": "4d31894110a05a8b300afd375c779b65aea71cfa440c235c17937ecabef00c68",
+    "revision_2026/experiments/run.py": "28ea0001827519adf68e871a0f19adacd1943b198aab6e9df00215189bfabc27",
+    "revision_2026/experiments/analyze.py": "c31c6d3eeb57ed6d4ac5ea5c30b4c2e34a35d7f1283531a01406b7770794d178",
+    "v2/scripts/run_v2.py": "f064d488ab355327d07dc0ec89e08a2519db91bdc1c544c4cbcb2bb97d252fc6",
+    "v2/configs/protocol-v2.json": "ab54956f1cb542c8f324cb3034c498b418ca4c091e4fcd00dd76ee01a44bb137",
+    "data/contacts/kazstsat.csv": "4a1b01433a9d86386956f793dab7270594aa1da7cfaa60588bb27247b3df93d7",
+    "requirements-lock.txt": "7ba702b1cb2566ce4681523237af05dfe3483b1adaa8b9371d04f71ca60154f0",
+    "v2/src/context_telemetry_v2/__init__.py": "0a7c10e48b33f0679ca8a02004b0fa766e05963e6c49681312a4da9ec443b925",
+    "v2/src/context_telemetry_v2/delivery.py": "ab885a1da80cc133e4e8d0b8d97046e8b2312c33eea81c5cbe109b02135a2902",
+    "v2/src/context_telemetry_v2/diagnosis.py": "34ffa20348aacd3e1974a32576a50e35d27717f67515e71bed75b30bd03ff316",
+    "v2/src/context_telemetry_v2/model.py": "d2c8ab65d67229962278f4441aef487dc5e6ebe5b30db60a620b955a51f3f08a",
+    "v2/src/context_telemetry_v2/policies.py": "8e0a09a634bd7d832a520a642a4b8881a8a6ee626d863d4d135c73ea6900625c",
+    "v2/src/context_telemetry_v2/wire.py": "27b11f9b3d5b2cb276674ad1369752a68061b4266621ebbbffeae8631a82cd0d"
+  }
+}

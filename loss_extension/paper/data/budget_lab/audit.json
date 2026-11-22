@@ -1,0 +1,71 @@
+{
+  "status": "passed",
+  "created_utc": "2026-11-13T08:53:26.017615+00:00",
+  "scope": "Independent recursive predictions, calibration-only A/G recovery, scalar pair checks, saved metrics and frozen hashes; no new fitting or held-out retuning",
+  "audit_script_sha256": "02c30a1e873023dd28e6c539b8d7399b8ea57ab049878484e8a162c1f8c7d1fc",
+  "input_sha256": {
+    "sources/lab/archive/1_Model/1_Heater/initial_models.csv": "ab56b612270ca17aeda83c8b99ab112a73daf71d9769105640f8ed6a7b57b05e",
+    "lab/main/freeze.json": "e40b3cdf4fe164e77321534ab8b72e06f526cde430f9e1206875cc33ce809817",
+    "lab/main/calibration.json": "36ab731626d86674937447f5074d79907a2680e020fe39def2f653b8b502049e",
+    "lab/main/results.json": "4b47001e239b745645182f903cf44b6c87e853e75b7eb897098a4a12db69f137",
+    "lab/main/predictions.csv": "19ea3ffe839c01e5fc99abb280f0a24dfcec6443421812abd33d6c320a3de43a",
+    "lab/main/heldout-pair-compatibility.csv": "3d2f12f5f7099aca491c424451e062055bc6d6bd218bc78d5159014e8a8d3967",
+    "lab/main/calibration-grid.csv": "dbd776116230a172780667a4a6402ad01327be85f816f5f7970dd8939a538358"
+  },
+  "raw_records": 600,
+  "calibration_records": 400,
+  "held_out_records": 200,
+  "held_out_off_transitions": 1,
+  "recursive_prediction_max_difference_c": {
+    "first_order": 5.613287612504791e-13,
+    "sensor_lag": 2.5579538487363607e-13
+  },
+  "metrics": {
+    "first_order": {
+      "calibration": {
+        "n": 400,
+        "rmse_c": 1.981323359936793,
+        "mae_c": 1.7240545245124963,
+        "max_abs_error_c": 3.3014066916220273,
+        "empirical_envelope_half_width_c": 3.4014066916220274,
+        "empirical_envelope_coverage": 1.0
+      },
+      "held_out": {
+        "n": 200,
+        "rmse_c": 6.314837218940696,
+        "mae_c": 6.179473588653488,
+        "max_abs_error_c": 7.858897966915116,
+        "empirical_envelope_half_width_c": 3.4014066916220274,
+        "empirical_envelope_coverage": 0.01
+      }
+    },
+    "sensor_lag": {
+      "calibration": {
+        "n": 400,
+        "rmse_c": 0.19795042903141355,
+        "mae_c": 0.15297082581694688,
+        "max_abs_error_c": 0.6438095848515921,
+        "empirical_envelope_half_width_c": 0.7438095848515921,
+        "empirical_envelope_coverage": 1.0
+      },
+      "held_out": {
+        "n": 200,
+        "rmse_c": 0.514292480765058,
+        "mae_c": 0.49629860019761607,
+        "max_abs_error_c": 0.9319714226216718,
+        "empirical_envelope_half_width_c": 0.7438095848515921,
+        "empirical_envelope_coverage": 0.98
+      }
+    }
+  },
+  "pair_counts": {
+    "eligible_pairs": 4309,
+    "off_only": 2412,
+    "retained_power_only": 0,
+    "both": 1897,
+    "neither": 0
+  },
+  "first_nominal_compatible_after_off_s": 40.947060108184814,
+  "real_fault_labels_available": false,
+  "current_measurements_available": false
+}

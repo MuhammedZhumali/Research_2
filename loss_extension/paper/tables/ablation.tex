@@ -1,0 +1,11 @@
+\begin{table}[!htb]\centering\small
+\caption{Summary composition on the same 1080 historical OFF commands at 32 bit/s. Correct, wrong and no-decision counts refer to the six-hour horizon. Delay is capped at six hours.}\label{tab:ablation}
+\begin{tabular}{@{}rlrrrrr@{}}\toprule
+Lag (s) & Records & Correct & Ever wrong & None & Delay (h) & B/day\\\midrule
+0 & Endpoints & 345 & 0 & 735 & 4.78 & 490\\
+0 & Endpoints + current & 546 & 0 & 534 & 4.26 & 524\\
+0 & Full summary & 671 & 0 & 409 & 3.92 & 641\\
+120 & Endpoints & 337 & 0 & 743 & 4.82 & 490\\
+120 & Endpoints + current & 545 & 0 & 535 & 4.26 & 524\\
+120 & Full summary & 664 & 0 & 416 & 3.94 & 641\\
+\bottomrule\end{tabular}\end{table}

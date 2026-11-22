@@ -1,0 +1,30 @@
+{
+  "version": "validation-3.0",
+  "approved_utc": "2026-11-13T08:57:13.356624+00:00",
+  "protocol_sha256": "6aefbc6f58780bbfc8ed9277e846056a81c784fe54bf6526d7ab493f275b41b7",
+  "source_hashes": {
+    "v2/src/context_telemetry_v2/__init__.py": "0a7c10e48b33f0679ca8a02004b0fa766e05963e6c49681312a4da9ec443b925",
+    "v2/src/context_telemetry_v2/delivery.py": "ab885a1da80cc133e4e8d0b8d97046e8b2312c33eea81c5cbe109b02135a2902",
+    "v2/src/context_telemetry_v2/diagnosis.py": "34ffa20348aacd3e1974a32576a50e35d27717f67515e71bed75b30bd03ff316",
+    "v2/src/context_telemetry_v2/model.py": "d2c8ab65d67229962278f4441aef487dc5e6ebe5b30db60a620b955a51f3f08a",
+    "v2/src/context_telemetry_v2/policies.py": "8e0a09a634bd7d832a520a642a4b8881a8a6ee626d863d4d135c73ea6900625c",
+    "v2/src/context_telemetry_v2/wire.py": "27b11f9b3d5b2cb276674ad1369752a68061b4266621ebbbffeae8631a82cd0d",
+    "v2/scripts/run_v2.py": "f064d488ab355327d07dc0ec89e08a2519db91bdc1c544c4cbcb2bb97d252fc6",
+    "v2/scripts/analyze_v2.py": "fbf9e019f5368ad626653bc22c31c0842ce082923cfb5f7a53c3f3349fc80bca",
+    "data/contacts/kazstsat.csv": "4a1b01433a9d86386956f793dab7270594aa1da7cfaa60588bb27247b3df93d7",
+    "requirements-lock.txt": "7ba702b1cb2566ce4681523237af05dfe3483b1adaa8b9371d04f71ca60154f0",
+    "v2/requirements-lock.txt": "7ba702b1cb2566ce4681523237af05dfe3483b1adaa8b9371d04f71ca60154f0",
+    "v3_validation/src/confirmatory_stats.py": "0ee7f30b7b619fc8289b4e6ce04fa9dab43a94ea0bf51759a481720f5528a6c5",
+    "v3_validation/scripts/run_confirmatory.py": "43f4135924c05bf05087f08ef11e49511c7d84fb18f98601d7f93442beadabbf",
+    "v3_validation/scripts/analyze_confirmatory.py": "453ca861d164974992ed97bdc76ec323d4b13a9f164575ab89c5173c956250c4",
+    "v3_validation/requirements-lock.txt": "7ba702b1cb2566ce4681523237af05dfe3483b1adaa8b9371d04f71ca60154f0",
+    "v2/verification/freeze.json": "68d8e17f4f352257e6f8d32638a08ef24329adf0f89475667e7dd0dcd0ad2e97",
+    "v2/configs/protocol-v2.json": "ab54956f1cb542c8f324cb3034c498b418ca4c091e4fcd00dd76ee01a44bb137"
+  },
+  "seed_manifest_sha256": "74e18c1a6eb28886ab3c32faf8b31a1e75a05332fa2509047c22d50893976f1b",
+  "approved_before_new_telemetry": true,
+  "registered_independent_episodes": 6000,
+  "pretest_checks_sha256": "1e416a660d529b213950c33e8b45416c1fbd9b44808eaf0a6f82c3e829179008",
+  "test_status_at_freeze": "not_started",
+  "note": "Fixed N and family; no new telemetry generated before this approval. Laboratory fitting is separate and cannot alter these frozen scientific methods."
+}

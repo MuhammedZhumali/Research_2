@@ -1,0 +1,312 @@
+{
+  "created_utc": "2026-11-19T10:18:36.461530+00:00",
+  "scope": "New simulations were run from extracted scientific source with the archived seeds and raw inputs. Completed ledgers were transferred into the final staging extraction for the manuscript build. The two reduced numerical source manifests were also independently rerun in this extraction. No original run was substituted for a regenerated ledger. Installation from a fresh package index and a second operating system were not tested.",
+  "pre_report_archive": {
+    "name": "review-ready.zip (staging)",
+    "sha256": "45c600449885592bf17636cb99e73ec32ff5eeb00bf1a839cf0092c1e244c23a",
+    "files_checked": 141,
+    "shared_scientific_inputs": 50,
+    "changed_shared_inputs": [
+      "data/orbit/source_manifest.json",
+      "v3_validation/sources/lab/manifest.json"
+    ]
+  },
+  "orbit": {
+    "source_sha256": "4a1b01433a9d86386956f793dab7270594aa1da7cfaa60588bb27247b3df93d7",
+    "regenerated_sha256": "4a1b01433a9d86386956f793dab7270594aa1da7cfaa60588bb27247b3df93d7",
+    "window_count": 28
+  },
+  "v2": {
+    "passed": true,
+    "run_rows": 15360,
+    "target_rows": 46080,
+    "traces_checked": 384,
+    "complete_registered_run_inventory": true,
+    "frames_checked": 7887,
+    "binary_examples_checked": 576,
+    "replayed_runs": 192,
+    "reference_diagnosis_overruns_in_saved_traces": 0,
+    "excluded_replay_fields": [
+      "planning_wall_s",
+      "diagnosis_wall_s"
+    ],
+    "scope": "Independent CSV and stored-frame/decision audit; fixed outcome-independent replay subset, not every run rerun."
+  },
+  "v3": {
+    "regenerated": {
+      "completed": true,
+      "smoke": false,
+      "independent_episodes": 6000,
+      "run_rows": 36000,
+      "target_rows": 108000,
+      "continuous_full_history_targets": 18000,
+      "continuous_resolved": 17997,
+      "continuous_ever_wrong": 0,
+      "reference_diagnosis_overruns": 0,
+      "reference_diagnosis_max_wall_s": 0.07495189999463037,
+      "elapsed_s": 1943.1107854000293
+    },
+    "archived": {
+      "completed": true,
+      "smoke": false,
+      "independent_episodes": 6000,
+      "run_rows": 36000,
+      "target_rows": 108000,
+      "continuous_full_history_targets": 18000,
+      "continuous_resolved": 17997,
+      "continuous_ever_wrong": 0,
+      "reference_diagnosis_overruns": 7,
+      "reference_diagnosis_max_wall_s": 0.2283811999950558,
+      "elapsed_s": 1579.036499000038
+    },
+    "audit": {
+      "passed": true,
+      "smoke": false,
+      "complete_registered_inventory": true,
+      "independent_episodes": 6000,
+      "run_rows": 36000,
+      "target_rows": 108000,
+      "traces_checked": 84,
+      "frames_checked": 1053,
+      "binary_examples_checked": 168,
+      "replayed_runs": 84,
+      "primary_intervals_checked": 36,
+      "v2_source_hashes_unchanged": true,
+      "scope": "All registered CSV rows and seed assignments, stored causal traces, fixed trace replay subset, independent interval formulas; no wall-clock reproducibility claim."
+    },
+    "timing_sensitivity": {
+      "candidate_planner_overruns": 0,
+      "candidate_diagnosis_overruns": 0,
+      "reference_overrun_events": 0,
+      "reference_max_wall_s": 0.07495189999463037,
+      "checked_repeated_target_rows": 108000,
+      "resolution_changes": 0,
+      "error_changes": 0,
+      "affected_first_correct_reference_targets": 0,
+      "observed_max_first_correct_delay_shift_s": 0.0,
+      "fixed_reserve_delay_ni_cells": 12,
+      "fixed_reserve_delay_eq_cells": 12
+    }
+  },
+  "loss": {
+    "ledger_counts": {
+      "runs": 17280,
+      "targets": 51840,
+      "contacts": 172944,
+      "frames": 234328
+    },
+    "timing_counts": {
+      "planner_overrun": 0,
+      "ground_overrun": 0
+    },
+    "frozen_inputs_verified": true,
+    "analysis": {
+      "run_rows": 17280,
+      "target_rows": 51840,
+      "distinct_targets": 1440,
+      "episodes": 480,
+      "source_hashes": {
+        "runs.csv": "d3f2723793c5f0264bedfc56b0a8f39021938afe79c0dd3084081537855edac5",
+        "targets.csv": "b82468201e26f2c7e86c2f5351a8eaa382e610392644a4485204d1b6bbc68f93"
+      },
+      "full_paired_grid": true,
+      "checks": [
+        "frozen truth across repeated conditions",
+        "three distinct transitions per episode/run",
+        "balanced faulty and healthy episodes per profile",
+        "complete cluster pairing",
+        "deadline and first correct accounting",
+        "missingness, unknown and wrong report semantics",
+        "actual wire and ACK reservation identities"
+      ],
+      "draws": 20000,
+      "seed": 8317402,
+      "primary_comparisons": 6,
+      "bootstrap": "stratified paired episode multinomial resampling, equal profile weights",
+      "numpy": "2.5.4"
+    }
+  },
+  "lab": {
+    "source_sha256": "ab56b612270ca17aeda83c8b99ab112a73daf71d9769105640f8ed6a7b57b05e",
+    "status": "passed",
+    "observations": 600,
+    "calibration_records": 400,
+    "held_out_records": 200,
+    "eligible_compatibility_pairs": 4309
+  },
+  "revision": {
+    "independent_target_counts": true,
+    "aggregate_cells": 64,
+    "contrasts": 332,
+    "unique_targets": 1080,
+    "prefix_causality": true,
+    "sensor_integration_max_abs_c": 1.4416150442286835e-06,
+    "byte_identical_scientific_files": [
+      "targets.csv",
+      "runs.csv",
+      "aggregate.csv",
+      "contrasts.csv"
+    ],
+    "scientific_sha256": {
+      "targets.csv": "280447ae011e426a10847129d82b005cb790f936cb9c932097ee1af267a4f2c3",
+      "runs.csv": "6a40636c4585b03bcbbc61e68995a1183275c815eef05621c395454b6620394c",
+      "aggregate.csv": "d6b7cd424a41c69075a04fb5ca96e7d024fa3f1bac8b3b091cba8f9ae07bb6d4",
+      "contrasts.csv": "7daf1a5442b187cd86468a01e1b5a0ff1589ac7ef7d0f0fa96067ab710234131"
+    }
+  },
+  "held_out_ledger_sha256": {
+    "v2": {
+      "runs.csv": {
+        "reference": "8fcce69ef5901b304ea608e8b9be6a281256a2207ed8c5e425a7ad53ba9003e8",
+        "replay": "42ede1c5295478489018c33c2503b219391d6a0f2f2697ec26223de67128358d"
+      },
+      "targets.csv": {
+        "reference": "f82f5fe89576b7292deeb68d49d5fc6e5ccb8d5822b9f251361fe04da682290f",
+        "replay": "f82f5fe89576b7292deeb68d49d5fc6e5ccb8d5822b9f251361fe04da682290f"
+      }
+    },
+    "v3": {
+      "runs.csv": {
+        "reference": "fe839415136dacb6ca4e192731fa8e9a7a2e889ba499e94beef64f3c098194f1",
+        "replay": "a2ec4571b6bb86e3acc6f8f8bc52218d650c2e97f418a0ab03cb5fc63e0356e4"
+      },
+      "targets.csv": {
+        "reference": "9933b9b3a948dcbdccf0a4f6c42fb639b7cefc505f3e64c93cebdcceca7477a5",
+        "replay": "57a229512eead413083ed36d7cde91abe7c9f96acad3d12e4f306b1d212e51da"
+      }
+    },
+    "loss": {
+      "runs.csv": {
+        "reference": "6caf6373193db4a15222d98159f8d9f2de7a8e3cc2b064507513f415fc47c4b6",
+        "replay": "d3f2723793c5f0264bedfc56b0a8f39021938afe79c0dd3084081537855edac5"
+      },
+      "targets.csv": {
+        "reference": "b82468201e26f2c7e86c2f5351a8eaa382e610392644a4485204d1b6bbc68f93",
+        "replay": "b82468201e26f2c7e86c2f5351a8eaa382e610392644a4485204d1b6bbc68f93"
+      },
+      "contacts.csv.gz": {
+        "reference": "0e6acbdb630e419749820ffeab92082c31f8832c1e0aa456e75616f561f572b6",
+        "replay": "f254c61149a10a01d658fdbccbaf22a8a35c91d273a4b80dcc831d99691d8260"
+      },
+      "frames.csv.gz": {
+        "reference": "4a843f9cda349ffde6038e8fc942faae265641fc82f5461b762a1f612f84af7c",
+        "replay": "8a33ea51530d3281728bba605c9721b2301dd06659dcedbc69f0c5e674a1cf31"
+      }
+    }
+  },
+  "release_comparison": {
+    "exploratory": {
+      "target_rows": 46080,
+      "decision_mismatches": {},
+      "max_absolute_capped_delay_change_s": 0,
+      "max_absolute_contact_reference_capped_delay_change_s": 0,
+      "traffic": {
+        "compared_rows": 15360,
+        "categorical_mismatches": 0,
+        "max_absolute_change": {
+          "wire_bytes": 0.0
+        }
+      }
+    },
+    "validation": {
+      "target_rows": 108000,
+      "decision_mismatches": {},
+      "max_absolute_capped_delay_change_s": 0,
+      "max_absolute_contact_reference_capped_delay_change_s": 0.06796220000978792,
+      "traffic": {
+        "compared_rows": 36000,
+        "categorical_mismatches": 0,
+        "max_absolute_change": {
+          "wire_bytes": 0.0
+        }
+      }
+    },
+    "frame_loss": {
+      "target_rows": 51840,
+      "decision_mismatches": {},
+      "max_absolute_capped_delay_change_s": 0,
+      "max_absolute_contact_reference_capped_delay_change_s": 0,
+      "traffic": {
+        "compared_rows": 17280,
+        "categorical_mismatches": 0,
+        "max_absolute_change": {
+          "wire_bytes": 0.0
+        }
+      }
+    },
+    "v3_paired_intervals": {
+      "compared_rows": 36,
+      "categorical_mismatches": 0,
+      "max_absolute_change": {
+        "mean_difference": 1.1327033334964653e-05,
+        "ci_low": 5.653749479961334e-05,
+        "ci_high": 3.3883428102399193e-05
+      },
+      "rounded_mismatches": 0,
+      "sign_of_rounded_zero_only": 2
+    },
+    "frame_loss_rates": {
+      "compared_rows": 9,
+      "categorical_mismatches": 0,
+      "max_absolute_change": {
+        "fault_detection_pct": 0.0,
+        "daily_wire_bytes": 0.0,
+        "detection_lo95_pct": 0.0,
+        "detection_hi95_pct": 0.0
+      }
+    },
+    "lab": {
+      "compared_rows": 4,
+      "categorical_mismatches": 0,
+      "max_absolute_change": {
+        "rmse_c": 0.0,
+        "mae_c": 0.0,
+        "max_abs_error_c": 0.0
+      }
+    },
+    "attribution_counts_match": true,
+    "revision_scientific_tables_match": {
+      "runs.csv": true,
+      "targets.csv": true,
+      "aggregate.csv": true,
+      "contrasts.csv": true
+    },
+    "paper_tex_mismatches": [],
+    "all_checks_agree": true
+  },
+  "manuscript": {
+    "reference_pdf_sha256": "43626e7dc7590ca06d8186c805c7ff06eb76f3112631f6eb9095573656e8039c",
+    "regenerated_pdf_sha256": "0a4d06e4a34e2bb7da64f598e926466f5bb1f38d6d390a3296d05af20726103b",
+    "latex_passes": [
+      "pdflatex",
+      "bibtex",
+      "pdflatex",
+      "pdflatex"
+    ],
+    "pages": 12,
+    "latex_documents_and_fragments": 17,
+    "latex_table_fragments": 8,
+    "regenerated_vector_figures": [
+      "budget_boundary",
+      "lab_physics",
+      "loss_detection",
+      "workflow_trace"
+    ],
+    "differing_text_pages": [],
+    "render_resolution_dpi": 108,
+    "number_of_differing_rendered_pixels_by_page": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}

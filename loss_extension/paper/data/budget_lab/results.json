@@ -1,0 +1,139 @@
+{
+  "status": "completed",
+  "source_commit": "f36e65a70dd7122d1829883899e40e56bf6c4279",
+  "raw_sha256": "ab56b612270ca17aeda83c8b99ab112a73daf71d9769105640f8ed6a7b57b05e",
+  "protocol_sha256": "17a96140033edfb5e10f2b78a0760538771258fec861074e2a9ab999d455b0d0",
+  "freeze_sha256": "e40b3cdf4fe164e77321534ab8b72e06f526cde430f9e1206875cc33ce809817",
+  "calibration_sha256": "36ab731626d86674937447f5074d79907a2680e020fe39def2f653b8b502049e",
+  "calibration_rows": 400,
+  "held_out_rows": 200,
+  "independent_held_out_off_transitions": 1,
+  "metrics": {
+    "first_order": {
+      "calibration": {
+        "n": 400,
+        "rmse_c": 1.9813233599367883,
+        "mae_c": 1.72405452451249,
+        "max_abs_error_c": 3.3014066916219846,
+        "empirical_envelope_half_width_c": 3.4014066916219847,
+        "empirical_envelope_coverage": 1.0
+      },
+      "held_out": {
+        "n": 200,
+        "rmse_c": 6.314837218940387,
+        "mae_c": 6.179473588653172,
+        "max_abs_error_c": 7.858897966914569,
+        "empirical_envelope_half_width_c": 3.4014066916219847,
+        "empirical_envelope_coverage": 0.01
+      }
+    },
+    "sensor_lag": {
+      "calibration": {
+        "n": 400,
+        "rmse_c": 0.19795042903145038,
+        "mae_c": 0.15297082581697088,
+        "max_abs_error_c": 0.6438095848515921,
+        "empirical_envelope_half_width_c": 0.7438095848515921,
+        "empirical_envelope_coverage": 1.0
+      },
+      "held_out": {
+        "n": 200,
+        "rmse_c": 0.5142924807652025,
+        "mae_c": 0.49629860019777206,
+        "max_abs_error_c": 0.931971422621821,
+        "empirical_envelope_half_width_c": 0.7438095848515921,
+        "empirical_envelope_coverage": 0.98
+      }
+    }
+  },
+  "diagnostic_outcomes": [
+    {
+      "configuration": "unchanged_v2_clear_current",
+      "off_start_s": 500.2664518356323,
+      "observed_off_duration_s": 98.93029808998108,
+      "first_label": "insufficient",
+      "first_support_after_off_s": null,
+      "final_label": "insufficient",
+      "opposing_certificates": 0,
+      "eligible_pairs": 0,
+      "off_only": 0,
+      "retained_power_only": 0,
+      "both": 0,
+      "neither": 0
+    },
+    {
+      "configuration": "unchanged_v2_slow_sparse_current",
+      "off_start_s": 500.2664518356323,
+      "observed_off_duration_s": 98.93029808998108,
+      "first_label": "insufficient",
+      "first_support_after_off_s": null,
+      "final_label": "insufficient",
+      "opposing_certificates": 0,
+      "eligible_pairs": 0,
+      "off_only": 0,
+      "retained_power_only": 0,
+      "both": 0,
+      "neither": 0
+    },
+    {
+      "configuration": "unchanged_v2_thermal_only",
+      "off_start_s": 500.2664518356323,
+      "observed_off_duration_s": 98.93029808998108,
+      "first_label": "insufficient",
+      "first_support_after_off_s": null,
+      "final_label": "insufficient",
+      "opposing_certificates": 0,
+      "eligible_pairs": 0,
+      "off_only": 0,
+      "retained_power_only": 0,
+      "both": 0,
+      "neither": 0
+    },
+    {
+      "configuration": "lab_adapted_first_order",
+      "off_start_s": 500.2664518356323,
+      "observed_off_duration_s": 98.93029808998108,
+      "first_label": "nominal",
+      "first_support_after_off_s": 40.947060108184814,
+      "final_label": "nominal",
+      "opposing_certificates": 0,
+      "eligible_pairs": 4309,
+      "off_only": 2412,
+      "retained_power_only": 0,
+      "both": 1897,
+      "neither": 0
+    }
+  ],
+  "lab_detector_configuration": {
+    "ambient_min_c": 22.1036843198472,
+    "ambient_max_c": 26.34502795531767,
+    "tau_min_s": 269.27764419002796,
+    "tau_max_s": 354.9236409404931,
+    "heater_rise_min_c": 81.00102914889395,
+    "heater_rise_max_c": 103.7950070600621,
+    "temperature_noise_bound_c": 3.927871464852926,
+    "current_off_max_abs_a": 0.05,
+    "current_on_min_a": 1.0,
+    "current_on_max_a": 1.4,
+    "min_pair_interval_s": 5.0,
+    "max_pair_interval_s": 80.0
+  },
+  "raw_without_context_certificates": 0,
+  "commanded_off_observation": {
+    "start_s": 500.2664518356323,
+    "last_observation_s": 599.1967499256134,
+    "prior_power_percent": 70.0,
+    "current_measurements_available": false,
+    "independently_labelled_fault": false,
+    "observed_peak_after_off_s": 8.981037139892578,
+    "observed_rise_after_off_c": 0.8000000000000114
+  },
+  "interpretation": [
+    "Hardware temperatures and logged commands; no artificial faults were introduced.",
+    "Held-out predictions are free-run continuations; no state or parameter reset at the split.",
+    "First-order and sensor-lag models were each selected only by calibration SSE.",
+    "Lab-adapted intervals are calibration discrepancy envelopes, not physical sensor specifications or confidence intervals.",
+    "Nominal means compatible with commanded OFF in this experiment, not independently certified health.",
+    "One held-out transition cannot validate fault rates, stuck-ON recall, current rules or KazSTSAT hardware."
+  ]
+}

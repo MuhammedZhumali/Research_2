@@ -1,0 +1,132 @@
+\documentclass[a4paper]{llncs}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\usepackage{amsmath,amssymb,graphicx,booktabs,url}
+\usepackage[hidelinks]{hyperref}
+\input{reviewer-access.tex}
+\urlstyle{same}
+\emergencystretch=1em
+\pdfpagewidth=210mm
+\pdfpageheight=297mm
+% Center the class's 122 x 193 mm text area on A4.
+\setlength{\oddsidemargin}{\dimexpr 44mm-1in\relax}
+\setlength{\evensidemargin}{\oddsidemargin}
+\setlength{\topmargin}{\dimexpr 52mm-1in-\headheight-\headsep\relax}
+\title{Delivering Diagnostically Sufficient Telemetry over Limited LEO Contacts under Frame Loss}
+\author{Anonymous submission}
+\institute{}
+\begin{document}
+\raggedbottom
+\maketitle
+\begin{abstract}
+When a heater receives another ON command before the next satellite contact, the latest reading can leave an earlier OFF command unresolved. A rolling event summary links selected temperature and current readings to each OFF so the ground can assess its outcome within six hours. In an exploratory lossless simulation at 32~bit/s on calculated KazSTSAT contacts, summaries resolved 216 of 360 commands using 627 bytes/day. Sending the latest readings with command context resolved 149 using 6391 bytes/day. Across 6000 independent synthetic episodes, summaries and full history delivered at the same contacts met prespecified equivalence margins for the fixed detector's timely resolution, error risk and delay. This result covers three telemetry profiles and two lossless schedules at 8 and 32~bit/s. \input{composition-abstract.tex} \input{loss-abstract.tex}
+\keywords{Diagnostic telemetry \and LEO contacts \and Event summaries \and Frame loss \and Fault detection}
+\end{abstract}
+\section{Introduction}
+
+An energized heater can draw the same current during a commanded ON and after a failed OFF. If another ON precedes the next ground contact, even a perfectly transmitted latest reading may say little about the earlier OFF. Engineering telemetry and events serve different deadlines~\cite{carsten2024}; NEOSSat illustrates their value in recovery~\cite{neossat2023}. Given a schedule of available contacts, complementary to secure-contact planning~\cite{r1}, which observations should cross the link?
+
+For each observed OFF, the proposed rule selects time-separated temperature readings and the first available current reading from records acquired by contact start. Each transmitted record retains the identifier of its OFF interval, so the ground detector can assess an earlier shutdown even after the next ON. The study tests which records suffice to determine \emph{each command's outcome within six hours}, how many bytes they cost and which missed deadlines persist with complete history at the same contacts. Separate comparisons isolate the contribution of the selected temperature pairs and test fault detection under two frame-erasure rules.
+
+\section{Related Work}
+
+The Deep Space 1 Beacon Monitor accumulated engineering-channel summaries and histories of anomaly episodes~\cite{sherwood2000}. Its episode reports give operators context for excursions beyond activity-dependent limits. Here every observed OFF is a target, including successful commands. Original measurements tied to that OFF allow a ground detector to distinguish a late failure from legitimate subsequent operation. ECSS reports and F Prime packet groups support configurable collection and delivery~\cite{ecss2016,fprime}; the controls below are independent implementations.
+
+Finley et al.\ select scientifically informative intervals using principal components and one-class classification~\cite{finley2024}. Wang et al.\ co-design an event-triggered filter and controller under delays and dropouts~\cite{wang2016}. Chou and Miao account for packet dependencies, feedback and deadlines in streaming~\cite{chou2006}. Observation-selection work addresses noisy or interdependent evidence and changing update value~\cite{krause2009,chen2017,singh2019}. This experiment holds acquisition and diagnosis fixed and measures the value of transmitted records in correctly classified historical commands, including all missed deadlines.
+
+\section{Diagnostic and Communication Model}
+
+The synthetic heater temperature follows $\dot T=(A+Hu-T)/\tau$, where $A$ is ambient temperature, $H$ is steady-state temperature rise, $u$ is actuator state and $\tau$ is a time constant (Table~\ref{tab:plant}). A healthy heater follows local ON/OFF commands. A persistent late stuck-ON fault prevents the second or third OFF after initially normal operation. Temperature is sampled every 60~s with five-second integration steps. The environment has a 5400~s sinusoidal period and a mean drawn from 8--12~$^\circ$C. Initial temperature is 0--8~$^\circ$C above ambient. ON current is 1.1--1.3~A with bounded noise of $\pm0.04$~A.
+\input{tables/plant.tex}
+
+Each 24~h episode starts ON. Three OFF times are drawn uniformly on a 60~s grid within [3600,7200], [28800,32400] and [54000,57600]~s. Independently drawn OFF dwells last 1800--18000~s. At contact start the sender sees acquired measurements, observed local command changes and the acknowledged receiver cache. Opaque interval identifiers encode neither state nor order. Only the evaluator sees hidden fault state and future commands.
+
+\paragraph{Ground diagnosis.} A reading $|I|\leq0.05$~A certifies observed OFF at acquisition. The evaluator attributes it to a contemporaneous OFF. A fault certificate requires delivered OFF context and $1.0\leq I\leq1.4$~A. A thermal certificate uses two samples 300--3600~s apart in the same delivered OFF interval. Starting from $[T_1-\epsilon,T_1+\epsilon]$, both OFF and retained-ON envelopes are propagated over the declared ranges with ambient bounds $[8-a,12+a]$~$^\circ$C. The second interval must intersect exactly one envelope (overlap tolerance $10^{-5}$~$^\circ$C). Opposing certificates in one batch yield an insufficient outcome. Any earlier erroneous decision remains recorded.
+
+\paragraph{Contact and byte accounting.} For contact duration $d_k$, rate $R$ in bit/s and selection time $c_k$, the budget is $\lfloor R\max(0,d_k-c_k)/8\rfloor$ bytes. A frame holds at most 16 observations. The ground caches decoded records and diagnoses at contact end plus processing time. Table~\ref{tab:wire} gives the serialized research format. The simulated nonce and tag account for size only. Continuous full history measures when the detector first has evidence. Contact full history gives it all records acquired by the same contact starts without a byte limit.
+\input{tables/wire.tex}
+
+\section{Rolling Summary and Comparison Design}
+
+\paragraph{Onboard selection rule.}
+For OFF command $e$ and contact $k$, let $T_{ek}$ contain the timestamps of all records from that command interval acquired by contact start. Skip empty intervals. Write $a=\min T_{ek}$, $b=\max T_{ek}$, and let $t_I$ be the earliest timestamp carrying a current reading, if available. For a target time $x$, $q(x)=\min\arg\min_{t\in T_{ek}}|t-x|$ selects the closest timestamp, with ties going to the earlier record. The ordered timestamps of the candidate records are
+\begin{equation}
+ S_{ek}=\operatorname{uniq}\bigl(a,\,t_I,\,q(a+\Delta),\,q(b-\Delta),\,b\bigr),
+ \qquad \Delta=600\,\mathrm{s}.
+ \label{eq:onboard-summary}
+\end{equation}
+Here $\operatorname{uniq}$ omits a missing $t_I$ and keeps the first occurrence of each timestamp. The two offsets target early and late temperature pairs within the detector's 300--3600~s range. The span was fixed during development. Selection uses timestamps and the presence of a current reading, independent of measured values and fault labels.
+
+At each contact, the sender concatenates the lists $S_{ek}$ from oldest OFF command to newest, then removes acknowledged records. Each frame takes the longest prefix of up to 16 records that fits the remaining byte budget together with the required command context, framing and ACK reservation. Packing stops when the next record cannot fit. Recomputing Eq.~\eqref{eq:onboard-summary} at later contacts can deliver more than five distinct records for one command.
+
+\begin{figure}[!tb]
+\centering\includegraphics[width=\linewidth]{figures/workflow_trace.pdf}
+\caption{Measurements selected for one OFF command and delivered at the next contact.}\label{fig:workflow}
+\end{figure}
+\input{worked_trace.tex}
+
+\paragraph{Comparison policies.} Fresh raw and FIFO send the newest and oldest available records first, respectively. Compact variants attach interval identifiers and self-contained command context. Thinned history retains temperature every 600~s and every current record. Fixed groups deliver observations from 600~s before until 3600~s after an OFF once that span is observed. Greedy groups rank the same fragments by a structural score per byte. Neither grouping rule sees diagnostic truth.
+
+\paragraph{Contacts and samples.} A frozen public element set for KazSTSAT (NORAD 43783, epoch 12 November 2026, 14:08:29 UTC) gives 28 calculated windows in seven days over a model station near Astana (51.1694$^\circ$ N, 71.4491$^\circ$ E, 350~m, elevation $\geq10^\circ$). Durations are 318.1--482.8~s and end-to-start gaps 1.46--11.45~h. Each episode takes a random 24~h segment from offsets over the first six days. The periodic control has 300~s windows every 5400~s with random first start between 300 and 1800~s. These are visibility and diagnostic-stream assumptions; the mission source establishes satellite identity~\cite{kazstsat}.
+
+Exploration uses 40 independent episodes per profile, balanced by fault presence, at 2, 4, 8, 32 and 2048~bit/s. Independent lossless validation uses 2000 new episodes per profile with an independent 0.5 probability of late failure. The protocol froze the detector, summary, seeds, endpoints and margins. Its primary grid includes three profiles, two schedules and two allocations (8 and 32~bit/s). The first 400 registered episodes per profile form a matched secondary sample for alternative policies and the 4~bit/s boundary.
+
+\paragraph{Endpoints and inference.} Timely resolution requires a correct outcome within six hours of each OFF. Capped delay assigns missed targets six hours. Issued-error risk is the proportion of episodes with any incorrect diagnosis. Daily wire bytes cover all transmissions across 24~h; transmission continues after diagnosis. Each episode contributes the mean of its three transition outcomes. Repeated schedules and rates preserve pairing.
+
+Equivalence to contact history requires all 36 simultaneous paired intervals (three metrics in 12 cells) inside the declared tolerances: 5 percentage points (pp) for resolution, 2~pp for episode-error risk and 900~s for capped delay~\cite{lakens2017}. At family level 0.05 the frozen protocol uses two-sided empirical Bernstein bounds for resolution and delay~\cite{maurer2009} and exact binomial bounds for the two directions of error discordance~\cite{clopper1934}. Secondary lossless intervals use 1000 paired bootstrap samples and are pointwise.
+
+\section{Lossless Results}
+
+\paragraph{Context and traffic.} On the exploratory KazSTSAT grid at 32~bit/s, summaries resolved 216 of 360 targets against 217 for contact history, with 41.7~s excess mean capped delay (Table~\ref{tab:explore}). Fresh compact resolved 149. The average of all 120 daily totals was 626.96 bytes for summaries versus 6390.67 for fresh compact, a saving of $100(1-626.96/6390.67)=90.2\%$. These values include framing and ACKs.
+\input{tables/exploratory.tex}
+
+\paragraph{Validation and missed deadlines.} All 36 simultaneous intervals fell within their respective margins (Table~\ref{tab:validation}). The largest upper bounds were 2.54~pp for resolution loss, 0.40~pp for excess episode-error risk and 645.8~s for delay excess. No primary episode issued an error, with a descriptive absolute-risk 95\% upper bound of 0.184\% per cell. Contact history itself resolves only 60.75--61.73\% under orbital windows, versus 99.95--100\% under periodic contacts.
+\input{tables/validation.tex}
+
+\input{attribution.tex}
+\input{tables/attribution.tex}
+
+\paragraph{Budget boundary.} On the matched secondary sample at 4~bit/s, orbital-window summaries resolved 50.50--52.50\% versus 60.00--61.17\% for contact history, with 1688--1999~s excess delay. Periodic-contact summaries still resolved 99.58--100\%, yet mean excess delay reached 4441--5130~s (Fig.~\ref{fig:budget}). At 32~bit/s on the orbital schedule summaries resolved 18.75--20.83~pp more targets than fresh compact across profiles and cost 5748--5801 fewer bytes/day.
+\begin{figure}[!tb]
+\centering\includegraphics[width=\linewidth]{figures/budget_boundary.pdf}
+\caption{Event summaries versus full history at the same contacts. Zero marks equality. Whiskers show pointwise 95\% paired bootstrap intervals.}\label{fig:budget}
+\end{figure}
+
+\section{Summary Composition and Sensor Response}
+
+An additional matched experiment uses 360 new episodes (60 healthy and 60 with late failure per profile). Three rules share the same lossless orbital contacts, context, cache, packing and detector: endpoints alone, endpoints plus the first available current-bearing record, and the full summary. Endpoints retain any current they carry in every rule. All allocate 4, 8 or 32~bit/s and reserve 0.1~s each for selection and ground diagnosis.
+
+A separate test at 32~bit/s introduces a first-order lag of 120~s in temperature sensing. The sensor follows a linear interpolation between successive noiseless temperatures up to acquisition. The heater, current channel, noise draws and detector are shared with zero-lag controls. Both complete-history references use the same lagged temperatures.
+\input{ablation-results.tex}
+\input{tables/ablation.tex}
+
+Table~\ref{tab:stress} gives the earlier model checks. Gaussian noise produced three final conflicts with full history. Plant-time-constant mismatch produced two issued errors even with continuous access. Selective delivery can hide contradictions. These exploratory conditions fall outside the baseline equivalence claim.
+\input{tables/stress.tex}
+
+\section{Detection under Frame Loss}\label{sec:loss}
+Figure~\ref{fig:loss} and Table~\ref{tab:loss} compare fault detection on calculated KazSTSAT contacts at 32~bit/s.
+\begin{figure}[!tb]
+\centering\includegraphics[width=\linewidth]{figures/loss_detection.pdf}
+\caption{Six-hour fault detection on calculated KazSTSAT contacts at 32~bit/s. Whiskers show pointwise 95\% bootstrap intervals.}\label{fig:loss}
+\end{figure}
+\input{tables/loss.tex}
+\input{loss-methods.tex}
+\input{loss-results.tex}
+
+\section{Laboratory Check and Limitations}
+
+APMonitor TCLab supplies measured heater commands and temperatures~\cite{apmonitor2021,park2020}. The first 400 observations of \texttt{initial\_models.csv} (before 400~s) were used for fitting and the next 200 for testing. The test includes one nominal OFF without current, injected fault labels or independent health certification. Two models fitted on calibration data continue into the test segment without resetting state. Held-out RMSE was 6.31~$^\circ$C for a first-order model and 0.51~$^\circ$C for a two-state lag model. Measured temperature rose by 0.80~$^\circ$C after OFF and peaked 8.98~s later (Fig.~\ref{fig:lab}). The fit cannot separate sensor inertia from plant dynamics. The 98.93~s OFF trace is too short for a 300~s pair. This example probes temperature prediction after nominal switching; it provides no fault-detection or delivery-policy validation.
+\begin{figure}[!tb]
+\centering\includegraphics[width=\linewidth]{figures/lab_physics.pdf}
+\caption{TCLab temperature and model predictions. The measured temperature briefly rises after heater shutdown.}\label{fig:lab}
+\end{figure}
+
+Synthetic results concern one actuator, assumed error bounds, one orbital epoch and a model station. In validation, seven full-history computations exceeded the 0.1~s reserve (maximum 0.228~s); fixing the reserve changed one first-correct reference time by less than 0.068~s and no classification. Host latency does not characterize flight hardware. Additional failures, energy use, unreliable ACKs after successful reception and within-contact adaptation remain outside the evaluated model.
+
+\section{Conclusion}
+For the fixed detector, the rolling summary met the equivalence margins for timely resolution, error risk and capped delay across all three telemetry profiles on both lossless schedules at 8 and 32~bit/s. At 4~bit/s it missed more deadlines than full history on the orbital schedule. With a working current channel, endpoints plus the first current sample matched the full summary's timely resolution count on the 32~bit/s zero-lag sample. Extra thermal samples contributed when current was unavailable. Long orbital gaps still left many deadlines unreachable even with full history. \input{loss-conclusion.tex}
+
+\paragraph{Reproducibility.} The archive \texttt{R2\_Frame\_Loss\_Research.zip} contains the code, protocols and data. \ifResearchAttached Save the ZIP from the PDF's Attachments panel. \fi Its root \texttt{README.md} explains how to verify the archived results and repeat the experiments.
+\bibliographystyle{splncs04}
+\bibliography{references}
+\end{document}
